@@ -1,0 +1,4 @@
+scalar LocalDate @java(package:"java.time")
+scalar LocalTime @java(package:"java.time")
+scalar Instant @java(package:"java.time")
+scalar UUID @java(package:"java.util")

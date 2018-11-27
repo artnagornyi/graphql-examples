@@ -1,0 +1,581 @@
+type MiningRuleOutput {
+  activeTimeFrom: LocalTime
+  activeTimeTo: LocalTime
+  dayOfMonth: Int
+  daysOfWeek: [DayOfWeek]
+  expirationDate: LocalDate
+  frequency: RuleFrequency
+  id: Long
+  maxConnections: Int
+  onceDate: LocalDate
+  zoneOffset: String
+}
+
+type UserCredentialsOutput {
+  login: String
+  password: String
+}
+
+type UserDetails {
+  bio: String
+  birthDate: Instant
+  createdAt: Instant
+  educations: [Education]
+  emails: [String]
+  firstName: String
+  fromLocation: String
+  gender: Gender
+  languages: [String]
+  lastName: String
+  livesInLocation: String
+  maritalStatus: String
+  middleName: String
+  modifiedAt: Instant
+  phones: [String]
+  type: UserType
+  websites: [String]
+}
+
+type UserListConnection {
+  isEnabled: Boolean
+  type: ConnectionType
+}
+
+type UserListPage {
+  items: [BriefUserView]
+  totalItemsCount: Long
+}
+
+type BriefUserView {
+  connections: [UserListConnection]
+  createdAt: Instant
+  firstName: String
+  id: Long
+  lastName: String
+  middleName: String
+  modifiedAt: Instant
+  type: UserType
+}
+
+type MiningResultsOutput {
+  crawledAt: Instant
+  message: String
+  status: MiningSourceStatus
+}
+
+type MiningSourceDetailsOutput {
+  miningRules: [MiningRuleOutput]
+  userCredentials: UserCredentialsOutput
+  createdAt: Instant
+  createdBy: String
+  depth: Int
+  enabled: Boolean
+  id: Long
+  profileId: String
+  proxyCountryCode: CountryCode
+  type: MinerType
+  url: String
+}
+
+type MiningSourceStatisticOutput {
+  miningResults: [MiningResultsOutput]
+  failed: Long
+  succeeded: Long
+  total: Long
+}
+
+type MiningSourcesOutput {
+  crawledAt: Instant
+  crawledBy: String
+  createdAt: Instant
+  createdBy: String
+  enabled: Boolean
+  id: Long
+  status: MiningSourceStatus
+  type: MinerType
+  url: String
+}
+
+type Education {
+  city: String
+  description: String
+  name: String
+  specialization: String
+  studiedFrom: Instant
+  studiedTo: Instant
+  type: EducationType
+}
+
+type GenericPage_MiningSourcesOutput {
+  items: [MiningSourcesOutput]
+  totalItemCount: Long
+}
+
+#Mutation root type
+type Mutation {
+  addMiningSource(input: MiningSourceInput): Long
+  changeMiningSourceState(state: MiningSourceStateInput): Long
+  createUser(input: UserInput!): Long
+  login(input: LoginInput): String
+  logout: Boolean
+  modifyUser(userId: Long!, input: UserInput!): Boolean
+  recoverPassword(email: String!): Boolean
+  removeMiningSources(input: Long!): Boolean
+  updateMiningSource(input: MiningSourceInput): Long
+}
+
+type ProxiesInput {
+  value: [CountryCode]
+}
+
+#Query root type
+type Query {
+  currentUser: User
+  getUserDetails(userId: Long!): UserDetails
+  getUserList(input: UserListQueryInput!): UserListPage
+  getMiningSourceDetails(datasourceId: Long!): MiningSourceDetailsOutput
+  getMiningSourceStatistic(datasourceId: Long!): MiningSourceStatisticOutput
+  getMiningSources(input: MiningSourcesQueryInput): GenericPage_MiningSourcesOutput
+  getProxies: ProxiesInput
+}
+
+type User {
+  createdAt: Instant
+  email: String
+  isEnabled: Boolean
+  modifiedAt: Instant
+  securityRole: SecurityRole
+  userId: UUID
+}
+
+enum UserType {
+  ACTIVE
+  BABY
+  DATA_MINER
+}
+
+enum CountryCode {
+  AC
+  AD
+  AE
+  AF
+  AG
+  AI
+  AL
+  AM
+  AN
+  AO
+  AQ
+  AR
+  AS
+  AT
+  AU
+  AW
+  AX
+  AZ
+  BA
+  BB
+  BD
+  BE
+  BF
+  BG
+  BH
+  BI
+  BJ
+  BL
+  BM
+  BN
+  BO
+  BQ
+  BR
+  BS
+  BT
+  BU
+  BV
+  BW
+  BY
+  BZ
+  CA
+  CC
+  CD
+  CF
+  CG
+  CH
+  CI
+  CK
+  CL
+  CM
+  CN
+  CO
+  CP
+  CR
+  CS
+  CU
+  CV
+  CW
+  CX
+  CY
+  CZ
+  DE
+  DG
+  DJ
+  DK
+  DM
+  DO
+  DZ
+  EA
+  EC
+  EE
+  EG
+  EH
+  ER
+  ES
+  ET
+  EU
+  EZ
+  FI
+  FJ
+  FK
+  FM
+  FO
+  FR
+  FX
+  GA
+  GB
+  GD
+  GE
+  GF
+  GG
+  GH
+  GI
+  GL
+  GM
+  GN
+  GP
+  GQ
+  GR
+  GS
+  GT
+  GU
+  GW
+  GY
+  HK
+  HM
+  HN
+  HR
+  HT
+  HU
+  IC
+  ID
+  IE
+  IL
+  IM
+  IN
+  IO
+  IQ
+  IR
+  IS
+  IT
+  JE
+  JM
+  JO
+  JP
+  KE
+  KG
+  KH
+  KI
+  KM
+  KN
+  KP
+  KR
+  KW
+  KY
+  KZ
+  LA
+  LB
+  LC
+  LI
+  LK
+  LR
+  LS
+  LT
+  LU
+  LV
+  LY
+  MA
+  MC
+  MD
+  ME
+  MF
+  MG
+  MH
+  MK
+  ML
+  MM
+  MN
+  MO
+  MP
+  MQ
+  MR
+  MS
+  MT
+  MU
+  MV
+  MW
+  MX
+  MY
+  MZ
+  NA
+  NC
+  NE
+  NF
+  NG
+  NI
+  NL
+  NO
+  NP
+  NR
+  NT
+  NU
+  NZ
+  OM
+  PA
+  PE
+  PF
+  PG
+  PH
+  PK
+  PL
+  PM
+  PN
+  PR
+  PS
+  PT
+  PW
+  PY
+  QA
+  RE
+  RO
+  RS
+  RU
+  RW
+  SA
+  SB
+  SC
+  SD
+  SE
+  SF
+  SG
+  SH
+  SI
+  SJ
+  SK
+  SL
+  SM
+  SN
+  SO
+  SR
+  SS
+  ST
+  SU
+  SV
+  SX
+  SY
+  SZ
+  TA
+  TC
+  TD
+  TF
+  TG
+  TH
+  TJ
+  TK
+  TL
+  TM
+  TN
+  TO
+  TP
+  TR
+  TT
+  TV
+  TW
+  TZ
+  UA
+  UG
+  UK
+  UM
+  UNDEFINED
+  US
+  UY
+  UZ
+  VA
+  VC
+  VE
+  VG
+  VI
+  VN
+  VU
+  WF
+  WS
+  XK
+  YE
+  YT
+  YU
+  ZA
+  ZM
+  ZR
+  ZW
+}
+
+enum MinerType {
+  BITCOIN
+  ETHEREUM
+  LITECOIN
+  MONERO
+}
+
+enum MiningSourceStatus {
+  AVAILABLE
+  UNAVAILABLE
+  UNKNOWN
+}
+
+enum DayOfWeek {
+  FRIDAY
+  MONDAY
+  SATURDAY
+  SUNDAY
+  THURSDAY
+  TUESDAY
+  WEDNESDAY
+}
+
+enum EducationType {
+  COLLEGE
+  SCHOOL
+  UNIVERSITY
+}
+
+enum Gender {
+  FEMALE
+  MALE
+}
+
+enum RuleFrequency {
+  DAILY
+  MONTHLY
+  ONCE
+  WEEKLY
+}
+
+enum ConnectionType {
+  ONEWAY
+  TWOWAY
+}
+
+enum SecurityRole {
+  ADMIN
+  OPERATOR
+  SUPERVISOR
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+input MiningRuleInput {
+  activeTimeFrom: LocalTime
+  activeTimeTo: LocalTime
+  dayOfMonth: Int
+  daysOfWeek: [DayOfWeek]
+  expirationDate: LocalDate
+  frequency: RuleFrequency
+  id: Long
+  maxConnections: Int
+  onceDate: LocalDate
+  zoneOffset: String
+}
+
+input UserCredentialsInput {
+  login: String
+  password: String
+}
+
+input UserInput {
+  bio: String
+  birthDate: Instant
+  educations: [EducationInput]
+  emails: [String]
+  firstName: String
+  fromLocation: String
+  gender: Gender
+  languages: [String]
+  lastName: String
+  livesInLocation: String
+  maritalStatus: String
+  middleName: String
+  occupations: [String]
+  phones: [String]
+  type: UserType
+  websites: [String]
+}
+
+input UserListFilterInput {
+  createdAtFrom: Instant
+  createdAtTo: Instant
+  modifiedAtFrom: Instant
+  modifiedAtTo: Instant
+  searchInName: String
+  types: [UserType]
+}
+
+input UserListQueryInput {
+  filter: UserListFilterInput
+  pageNumber: Int
+  pageSize: Int
+  sorting: [SortInput]
+}
+
+input MiningSourceInput {
+  miningRules: [MiningRuleInput]
+  userCredentials: UserCredentialsInput
+  depth: Int
+  enabled: Boolean
+  id: Long
+  profileId: String
+  proxyCountryCode: CountryCode
+  type: MinerType
+  url: String
+}
+
+input MiningSourceStateInput {
+  enabled: Boolean
+  id: Long
+}
+
+input MiningSourcesQueryInput {
+  pageNumber: Int
+  pageSize: Int
+  sorting: [SortInput]
+}
+
+input EducationInput {
+  city: String
+  description: String
+  name: String
+  specialization: String
+  studiedFrom: Instant
+  studiedTo: Instant
+  type: EducationType
+}
+
+input LoginInput {
+  email: String
+  password: String
+}
+
+input SortInput {
+  field: String
+  order: SortOrder
+}
